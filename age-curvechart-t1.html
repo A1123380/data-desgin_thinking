@@ -3,11 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cathy Data Story-新北市新莊區高齡人口樣態</title>
+    <title>Cathy Data Story - 新北市新莊區高齡人口樣態</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .text-section {
+            flex: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-right: 1px solid #e0e0e0;
+        }
+        .text-section h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333333;
+            text-align: center;
+        }
+        .text-section p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555555;
+            text-align: justify;
+        }
+        .text-section .card {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .chart-section {
+            flex: 1;
+            padding: 20px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-    <h2>My data story：</h2>
-    <h2>這份圖表聚焦於新北市新莊區的高齡人口結構與分布，透過數據呈現該區域高齡化的現況與趨勢。藉由視覺化的方式，圖表展示了高齡人口在不同年齡層的比例、性別分布以及人口成長的變化。這些資訊對於政策制定者、城市規劃者以及社會福利工作者尤為重要，提供了有效的參考依據</h2>
-    <iframe src="https://plotdb.io/v/chart/37101" width="100%" height="600px" allowfullscreen="true" frameborder="0"></iframe>
+    <div class="container">
+        <!-- 左側文字內容 -->
+        <div class="text-section">
+            <h1>新北市新莊區高齡人口樣態</h1>
+            <div class="card">
+                <p>
+                    這份圖表聚焦於新北市新莊區的高齡人口結構與分布，透過數據呈現該區域高齡化的現況與趨勢。
+                    藉由視覺化的方式，圖表展示了高齡人口在各年齡層的比例、地理區域分布以及未來預測。
+                </p>
+            </div>
+            <div class="card">
+                <p>
+                    本報告的目的是幫助政策制定者更好地了解新莊區的高齡化挑戰，並且提供相關數據支持。
+                    希望這些資料能促進更有效的社會福利政策與資源的分配。
+                </p>
+            </div>
+        </div>
+        <!-- 右側圖表 -->
+        <div class="chart-section">
+            <iframe src="https://plotdb.io/v/chart/37101" allowfullscreen="true"></iframe>
+        </div>
+    </div>
 </body>
 </html>
