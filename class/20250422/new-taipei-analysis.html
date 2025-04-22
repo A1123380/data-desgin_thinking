@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Story - 新北市新莊區人口熱力圖數據總覽</title>
+    <style>
+        @font-face {
+            font-family: 'RoundedBlack';
+            src: url('path-to-your-font-file.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'RoundedBlack', 'Noto Sans TC', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            font-size: 16px;
+            color: #333333;
+        }
+
+        .outer-bookmarks {
+            width: 90%;
+            max-width: 1260px;
+            margin: 0;
+            position: relative;
+            top: 8px;
+            z-index: 1;
+        }
+
+        .outer-bookmarks ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 4px;
+            justify-content: flex-start;
+            padding-left: 50px;
+        }
+
+        .outer-bookmarks li {
+            position: relative;
+        }
+
+        .outer-bookmarks a {
+            display: block;
+            padding: 8px 16px;
+            background-color: #f0e4c8;
+            color: #555555;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            transform: rotate(-2deg);
+            transition: transform 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        .outer-bookmarks a:hover {
+            background-color: #ffcc80;
+            color: #333333;
+            transform: rotate(0deg);
+        }
+
+        .outer-bookmarks li:nth-child(2) a {
+            transform: rotate(2deg);
+        }
+
+        .outer-bookmarks li:nth-child(3) a {
+            transform: rotate(-1deg);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            max-width: 1260px;
+            background-color: #ffffff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 0 25px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .text-section {
+            flex: 1;
+            padding: 32px;
+            background-color: #faf3e2;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .text-section h1 {
+            font-size: 30px;
+            margin: 8px 0 40px 0;
+            color: #333333;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .inner-bookmarks {
+            display: flex;
+            gap: 8px;
+            position: absolute;
+            top: -16px;
+            left: 16px;
+        }
+
+        .inner-bookmarks ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 4px;
+        }
+
+        .inner-bookmarks li {
+            position: relative;
+        }
+
+        .inner-bookmarks a {
+            display: block;
+            padding: 6px 12px;
+            background-color: #fffde7;
+            color: #555555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            transform: rotate(-2deg);
+            transition: transform 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        .inner-bookmarks a:hover {
+            background-color: #ffcc80;
+            color: #333333;
+            transform: rotate(0deg);
+        }
+
+        .inner-bookmarks li:nth-child(2) a {
+            transform: rotate(2deg);
+        }
+
+        .inner-bookmarks li:nth-child(3) a {
+            transform: rotate(-1deg);
+        }
+
+        .inner-bookmarks li:nth-child(4) a {
+            transform: rotate(3deg);
+        }
+
+        .content-scroll {
+            max-height: 360px;
+            overflow-y: auto;
+            padding-right: 8px;
+            margin-top: 16px;
+        }
+
+        .content-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .content-scroll::-webkit-scrollbar-track {
+            background: #faf3e2;
+            border-radius: 3px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb {
+            background: #ffcc80;
+            border-radius: 3px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb:hover {
+            background: #ffb74d;
+        }
+
+        .card p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555555;
+            text-align: justify;
+            margin: 12px 0;
+        }
+
+        .chart-section {
+            flex: 1;
+            padding: 32px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        iframe {
+            width: 100%;
+            height: 540px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .text-section, .chart-section {
+                padding: 16px;
+            }
+
+            .text-section h1 {
+                font-size: 24px;
+            }
+
+            iframe {
+                height: 360px;
+            }
+
+            .outer-bookmarks ul, .inner-bookmarks ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .outer-bookmarks a, .inner-bookmarks a {
+                transform: none;
+            }
+
+            .inner-bookmarks {
+                position: static;
+                justify-content: center;
+                margin-bottom: 16px;
+            }
+
+            .outer-bookmarks {
+                top: 0;
+                padding-left: 0;
+            }
+
+            .content-scroll {
+                max-height: 270px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="outer-bookmarks">
+        <ul>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250415/age-curvechart-t1.html">0415</a></li>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250422/new-taipei-analysis.html">0422</a></li>
+            <li><a href="#date-0429">0429</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="text-section">
+            <h1>新北市人口熱力圖數據總覽</h1>
+            <div class="card" id="date-0415">
+                <div class="inner-bookmarks">
+                    <ul>
+                        <li><a href="#overview">總覽</a></li>
+                    </ul>
+                </div>
+                <div class="content-scroll">
+                    <p id="overview">根據統計新北市的人口熱力圖顯示板橋區人口最多，是新北市的第一大行政區，總人口數超過55萬人，其中女性略多於男性。作為新北的行政與交通樞紐，板橋的高人口密度也反映出其生活機能完備與住宅需求性強。</p>
+                    <p>緊接著是新莊區與中和區，分別擁有超過42萬與40萬人口，亦屬於新北市的重要核心城區。這些區域不僅人口龐大，同時具備強烈的商業發展潛力，是未來公共建設的重要地點。</p>
+                    <p>三重區與新店區亦在人口分布中佔據前列，其中三重作為與台北市接壤的地區，發展迅速，新店則以宜居生活與自然資源聞名，吸引不少人口定居。</p>
+                    <p>此外，土城區、永和區、汐止區、淡水區與蘆洲區等也都是人口超過20萬的主要生活圈。特別值得一提的是淡水區，雖地處新北市邊緣，近年因交通建設與景觀資源優勢，人口也穩定成長。</p>
+                    <p>從男女比例來看，多數區域女性人數略多於男性，顯示人口結構相對均衡，並無明顯性別失衡現象。</p>
+                    <p>整體而言，此次熱力圖讓我們清楚看見新北市人口集中於中西部城區，這些數據幫助政府在交通建設、公共服務、教育資源與商業佈局等領域作出更準確的決策，同時也能作為企業選址與區域投資的重要依據。</p>
+                </div>
+            </div>
+        </div>
+        <div class="chart-section">
+            <iframe src="https://plotdb.io/v/chart/37219" allowfullscreen="true"></iframe>
+        </div>
+    </div>
+</body>
+</html>
