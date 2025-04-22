@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新北大區人口熱力圖</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .card-left {
+            flex: 1;
+            padding: 40px 30px;
+            background-color: #faf3e2; /* 柔和背景色 */
+            border-right: 1px solid #e0e0e0; /* 分隔線 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .card-left h1 {
+            margin: 0 0 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            text-align: left;
+        }
+        .card-left p {
+            margin: 0 0 15px;
+            color: #555;
+            line-height: 1.8;
+            text-align: left;
+            font-size: 18px;
+        }
+        .card-right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card-right iframe {
+            width: 90%;
+            height: 90%;
+            border: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card-left">
+            <h1>新北大區人口熱力圖分析</h1>
+            <p>新北大區人口熱力圖展示了該地區不同區域的人口分布情況，透過清晰的顏色層次，幫助我們快速掌握人口密集的熱點區域。</p>
+            <p>此圖表不僅是城市規劃和資源分配的重要參考數據，還能為交通建設和商業發展提供有效的指引。</p>
+            <p>結合最新統計數據，我們希望透過此視覺化工具，讓決策過程更加高效並以數據為基礎，實現城市的可持續發展。</p>
+        </div>
+        <div class="card-right">
+            <iframe src="https://plotdb.io/v/chart/37219" allowfullscreen="true"></iframe>
+        </div>
+    </div>
+</body>
+</html>
