@@ -42,15 +42,15 @@
         }
 
         .container:nth-child(1) {
-            animation-delay: 0.5s;
+            animation-duration: 1s;
         }
 
         .container:nth-child(2) {
-            animation-delay: 1s;
+            animation-duration: 1.5s;
         }
 
         .container:nth-child(3) {
-            animation-delay: 1.5s;
+            animation-duration: 2s;
         }
 
         @keyframes slideIn {
@@ -73,6 +73,49 @@
             padding: 32px;
             background-color: #faf3e2;
             border-right: 1px solid #e0e0e0;
+            animation: slideIn 0.8s ease-out forwards;
+            opacity: 0;
+            position: relative;
+        }
+
+        .chart-section {
+            flex: 1;
+            padding: 32px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            animation: slideIn 1.2s ease-out forwards;
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+
+        .container:nth-child(1) .text-section {
+            animation-duration: 0.8s;
+        }
+
+        .container:nth-child(1) .chart-section {
+            animation-duration: 1.2s;
+            animation-delay: 0.4s;
+        }
+
+        .container:nth-child(2) .text-section {
+            animation-duration: 0.9s;
+        }
+
+        .container:nth-child(2) .chart-section {
+            animation-duration: 1.3s;
+            animation-delay: 0.5s;
+        }
+
+        .container:nth-child(3) .text-section {
+            animation-duration: 1s;
+        }
+
+        .container:nth-child(3) .chart-section {
+            animation-duration: 1.4s;
+            animation-delay: 0.6s;
         }
 
         .text-section h1 {
@@ -95,6 +138,8 @@
             overflow-y: auto;
             padding-right: 8px;
             margin-top: 16px;
+            scroll-behavior: smooth;
+            position: relative;
         }
 
         .content-scroll::-webkit-scrollbar {
@@ -109,10 +154,44 @@
         .content-scroll::-webkit-scrollbar-thumb {
             background: #ffcc80;
             border-radius: 3px;
+            transition: all 0.2s ease;
         }
 
-        .content-scroll::-webkit-scrollbar-thumb:hover {
+        .content-scroll:hover::-webkit-scrollbar-thumb {
+            width: 8px;
             background: #ffb74d;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb:active {
+            animation: pulse 0.3s;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .scroll-top-btn {
+            display: none;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: #e57373;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .scroll-top-btn:hover {
+            background-color: #d32f2f;
         }
 
         .card p {
@@ -125,16 +204,6 @@
 
         .card strong {
             color: #e57373;
-        }
-
-        .chart-section {
-            flex: 1;
-            padding: 32px;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-width: 100%;
         }
 
         iframe {
@@ -152,7 +221,8 @@
             overflow: hidden;
             border-radius: 10px;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-            background: #f5f5f5;
+            background: linear-gradient(145deg, #f5f5f5, #ffffff);
+            perspective: 1000px;
         }
 
         .carousel-inner {
@@ -174,13 +244,15 @@
             max-height: 100%;
             object-fit: contain;
             background: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e0e0e0;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.1s ease, filter 0.1s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
 
         .carousel-item img:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
         }
 
         .prev, .next {
@@ -295,6 +367,7 @@
                         <p><strong>南勢里</strong>：高齡人口高度集中，達到<strong>3500人</strong>，為林口區內人口最密集的地方。</p>
                         <p>這種分布不均可以從熱力圖中清楚看出，南勢里形成一個<strong>高齡人口的熱點</strong>。</p>
                         <p>醫療資源需求相較於新店，林口南勢里因高齡人口數多，對於醫療機構的需求更為集中，而西部地區的需求則相對較低。</p>
+                        <button class="scroll-top-btn" onclick="this.parentElement.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
                     </div>
                 </div>
             </div>
@@ -317,6 +390,7 @@
                         <p><h3>泰山區：</h3></p>
                         <p>泰山區的85歲以上高齡人口分布則呈現出<strong>相對均衡</strong>的特徵，平均每里約有<strong>40人</strong>左右。與其他區域（如林口區的分布差異明顯）相比，泰山區的高齡人口分布更加平均，顯示出當地在<strong>資金分配</strong>與<strong>資源規劃</strong>上的妥善管理。</p>
                         <p>這種均勻的分布也可能讓每個里別的發展更加<strong>平衡</strong>，進一步提升居民的生活品質。</p>
+                        <button class="scroll-top-btn" onclick="this.parentElement.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
                     </div>
                 </div>
             </div>
@@ -333,7 +407,9 @@
                         <p><h3><b>銀髮旅遊</b></h3></p>
                         <p>高齡化已是不可避免的趨勢，如何讓長輩活得健康、開心，已是現今的課題。在山區咖啡廳工作時，經常遇到長輩來訪，他們羨慕年輕人能旅行，卻因為擔心體力、怕麻煩而裹足不前。</p>
                         <p>因此希望透過「銀髮旅遊」計畫，讓長輩重拾旅行的樂趣，勇敢踏出熟悉的生活圈。</p>
-                        <p>為了讓長輩更有參與感，因此出發前會先舉辦簡單的旅遊APP教學班，教導長輩如何"查找景點"、"交通方式"、"活動安排"、"紀錄行程"、"身體狀況"、"預約旅程"等，讓他們不再對數位工具感到陌生。</p>
+                        <p>為了讓長輩更有參與感，因此出發前會先舉辦簡單的旅遊APP教學班，教導長輩如何"查找景點"、"交通方式"、"活動安排"、"紀錄行程"、"身體狀況"、"預約旅程"等</p>
+                        <p>讓他們不再對數位工具感到陌生。</p>
+                        <button class="scroll-top-btn" onclick="this.parentElement.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
                     </div>
                 </div>
             </div>
@@ -375,6 +451,8 @@
         let currentIndex = 0;
         const carouselInner = document.querySelector('.carousel-inner');
         const totalItems = document.querySelectorAll('.carousel-item').length;
+        const carousel = document.querySelector('.carousel');
+        const contentScrolls = document.querySelectorAll('.content-scroll');
 
         function moveCarousel(direction) {
             currentIndex += direction;
@@ -408,13 +486,63 @@
             lightbox.style.display = 'none';
         }
 
+        // Enhanced 3D effect with depth gradient
+        carousel.addEventListener('mousemove', (e) => {
+            const rect = carousel.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const maxTilt = 10; // Maximum tilt angle in degrees
+            const maxZ = 20; // Maximum Z translation in pixels
+            const tiltX = ((mouseY - centerY) / centerY) * maxTilt;
+            const tiltY = -((mouseX - centerX) / centerX) * maxTilt;
+            const zOffset = ((centerX - Math.abs(mouseX - centerX)) / centerX) * maxZ;
+
+            const currentImg = document.querySelector(`.carousel-item:nth-child(${currentIndex + 1}) img`);
+            if (currentImg) {
+                currentImg.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(${zOffset}px)`;
+                currentImg.style.filter = `drop-shadow(${(mouseX - centerX) / 50}px ${(mouseY - centerY) / 50}px 8px rgba(0, 0, 0, 0.3))`;
+            }
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            const currentImg = document.querySelector(`.carousel-item:nth-child(${currentIndex + 1}) img`);
+            if (currentImg) {
+                currentImg.style.transform = 'scale(1) translateZ(0)';
+                currentImg.style.filter = 'drop-shadow(0 3px 6px rgba(0, 0, 0, 0.1))';
+            }
+        });
+
+        // Scrollbar interaction: Show/hide scroll-to-top button
+        contentScrolls.forEach(scroll => {
+            const btn = scroll.querySelector('.scroll-top-btn');
+            scroll.addEventListener('scroll', () => {
+                if (scroll.scrollTop > 200) {
+                    btn.style.display = 'block';
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+
+            // Keyboard scrolling support
+            scroll.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown') {
+                    scroll.scrollBy({ top: 50, behavior: 'smooth' });
+                } else if (e.key === 'ArrowUp') {
+                    scroll.scrollBy({ top: -50, behavior: 'smooth' });
+                }
+            });
+        });
+
         let autoPlay = setInterval(() => moveCarousel(1), 5000);
 
-        document.querySelector('.carousel').addEventListener('mouseenter', () => {
+        carousel.addEventListener('mouseenter', () => {
             clearInterval(autoPlay);
         });
 
-        document.querySelector('.carousel').addEventListener('mouseleave', () => {
+        carousel.addEventListener('mouseleave', () => {
             autoPlay = setInterval(() => moveCarousel(1), 5000);
         });
     </script>
