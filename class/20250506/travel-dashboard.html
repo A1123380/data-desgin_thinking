@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Story - 新北市高齡人口與銀髮旅遊總覽</title>
+    <style>
+        @font-face {
+            font-family: 'RoundedBlack';
+            src: url('path-to-your-font-file.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'RoundedBlack', 'Noto Sans TC', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            font-size: 16px;
+            color: #333333;
+        }
+
+        .main-card {
+            width: 90%;
+            max-width: 1260px;
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .container:last-child {
+            border-bottom: none;
+        }
+
+        .text-section {
+            flex: 1;
+            padding: 32px;
+            background-color: #faf3e2;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .text-section h1 {
+            font-size: 30px;
+            margin: 8px 0 40px 0;
+            color: #333333;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-scroll {
+            max-height: 360px;
+            overflow-y: auto;
+            padding-right: 8px;
+            margin-top: 16px;
+        }
+
+        .content-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .content-scroll::-webkit-scrollbar-track {
+            background: #faf3e2;
+            border-radius: 3px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb {
+            background: #ffcc80;
+            border-radius: 3px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb:hover {
+            background: #ffb74d;
+        }
+
+        .card p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555555;
+            text-align: justify;
+            margin: 12px 0;
+        }
+
+        .card strong {
+            color: #e57373;
+        }
+
+        .chart-section {
+            flex: 1;
+            padding: 32px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 540px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel {
+            position: relative;
+            width: 512px;
+            height: 512px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            background: #f5f5f5;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.8s ease-in-out;
+            height: 100%;
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 100%;
+        }
+
+        .carousel-item img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            background: white;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height Squashed commit message: 40px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 2;
+            font-size: 20px;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .text-section, .chart-section {
+                padding: 16px;
+            }
+
+            .text-section h1 {
+                font-size: 24px;
+            }
+
+            .carousel {
+                width: 100%;
+                height: 360px;
+            }
+
+            .iframe {
+                height: 360px;
+            }
+
+            .content-scroll {
+                max-height: 270px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-card">
+        <div class="container">
+            <div class="text-section">
+                <h1>新北市_65-85歲人口熱力圖數據總覽</h1>
+                <div class="card" id="date-0429-65-85">
+                    <div class="content-scroll">
+                        <p><h3>新店區：</h3></p>
+                        <p>高齡人口<strong>密集度較高</strong>，特別是在<strong>香波里</strong>和<strong>公崙里</strong>。這兩個區域屬於高齡人口最集中的地方，人口數接近<strong>2000人</strong>。</p>
+                        <p>醫療資源需求：由於高齡人口的密集，這些地區對於醫療機構、<strong>長期照護設施</strong>等需求可能特別迫切。</p>
+                        <p><h3>林口區：</h3></p>
+                        <p>高齡人口呈現<strong>分布不均</strong>的情況。西部地區：如福頂、嘉寶、下福等里的高齡人口數較少，僅約<strong>200人</strong>左右。</p>
+                        <p><strong>南勢里</strong>：高齡人口高度集中，達到<strong>3500人</strong>，為林口區內人口最密集的地方。</p>
+                        <p>這種分布不均可以從熱力圖中清楚看出，南勢里形成一個<strong>高齡人口的熱點</strong>。</p>
+                        <p>醫療資源需求相較於新店，林口南勢里因高齡人口數多，對於醫療機構的需求更為集中，而西部地區的需求則相對較低。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-section">
+                <iframe src="https://plotdb.io/v/chart/37297" allowfullscreen="true"></iframe>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="text-section">
+                <h1>新北市_85歲以上人口熱力圖數據總覽</h1>
+                <div class="card" id="date-0429-85">
+                    <div class="content-scroll">
+                        <p><h3>新莊區：</h3></p>
+                        <p>根據85歲以上人口熱力圖顯示，新莊區的<strong>頭前里</strong>高齡人口數量明顯較多，高達<strong>103人</strong>，這也是我家鄉的附近。</p>
+                        <p>在日常生活中，我可以明顯感受到這裡的醫療資源分布相當密集，街道上隨處可見<strong>診所</strong>和<strong>大型醫院</strong>，充分滿足居民需求。</p>
+                        <p>相比之下，<strong>昌平里</strong>與<strong>昌信里</strong>的高齡人口雖然沒有頭前里那麼多，但由於這些里之間的地理距離相對較近，推測當地的醫療資源可能是以更廣泛的區域為單位進行規劃，而非單一里別。</p>
+                        <p>從熱力圖的分布來看，高齡人口密集的區域也可能反映出該地的休憩設施是否充足，例如<strong>公園</strong>和<strong>涼亭</strong>的設置。</p>
+                        <p>以新莊區為例，我發現當地的涼亭與公園數量相當多，為高齡居民提供了良好的生活環境。</p>
+                        <p><h3>泰山區：</h3></p>
+                        <p>泰山區的85歲以上高齡人口分布則呈現出<strong>相對均衡</strong>的特徵，平均每里約有<strong>40人</strong>左右。與其他區域（如林口區的分布差異明顯）相比，泰山區的高齡人口分布更加平均，顯示出當地在<strong>資金分配</strong>與<strong>資源規劃</strong>上的妥善管理。</p>
+                        <p>這種均勻的分布也可能讓每個里別的發展更加<strong>平衡</strong>，進一步提升居民的生活品質。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-section">
+                <iframe src="https://plotdb.io/v/chart/37300" allowfullscreen="true"></iframe>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="text-section">
+                <h1>集點子大賽_銀髮旅遊</h1>
+                <div class="card" id="date-0506">
+                    <div class="content-scroll">
+                        <p><h3><b>銀髮旅遊</b></h3></p>
+                        <p>高齡化已是不可避免的趨勢，如何讓長輩活得健康、開心，已是現今的課題。在山區咖啡廳工作時，經常遇到長輩來訪，他們羨慕年輕人能旅行，卻因為擔心體力、怕麻煩而裹足不前。</p>
+                        <p>因此希望透過「銀髮旅遊」計畫，讓長輩重拾旅行的樂趣，勇敢踏出熟悉的生活圈。</p>
+                        <p>為了讓長輩更有參與感，因此出發前會先舉辦簡單的旅遊APP教學班，教導長輩如何"查找景點"、"交通方式"、"活動安排"、"紀錄行程"、"身體狀況"、"預約旅程"等</p>
+                        <p>讓他們不再對數位工具感到陌生。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-section">
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item">
+                            <img src="https://raw.githubusercontent.com/A1123380/data-desgin-thinking/main/class/20250506/images/A1123380_0318_gamma.jpg" alt="Image 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://raw.githubusercontent.com/A1123380/data-desgin-thinking/main/class/20250506/images/A1123380_0325_MSDesigne.jpg" alt="Image 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://raw.githubusercontent.com/A1123380/data-desgin-thinking/main/class/20250506/images/A1123380_0325_MSDesigner.jpg" alt="Image 3">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://raw.githubusercontent.com/A1123380/data-desgin-thinking/main/class/20250506/images/A1123380_0325_gamma.jpg" alt="Image 4">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://raw.githubusercontent.com/A1123380/data-desgin-thinking/main/class/20250506/images/A1123380_0401_MSDesigner.jpg" alt="Image 5">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://raw.githubusercontent.com/A1123380/data-desgin-thinking/main/class/20250506/images/A1123380_0401_gamma.jpg" alt="Image 6">
+                        </div>
+                    </div>
+                    <button class="prev" onclick="moveCarousel(-1)">❮</button>
+                    <button class="next" onclick="moveCarousel(1)">❯</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const carouselInner = document.querySelector('.carousel-inner');
+        const totalItems = document.querySelectorAll('.carousel-item').length;
+
+        function moveCarousel(direction) {
+            currentIndex += direction;
+
+            if (currentIndex < 0) {
+                currentIndex = totalItems - 1;
+            } else if (currentIndex >= totalItems) {
+                currentIndex = 0;
+            }
+
+            const offset = -currentIndex * 100;
+            carouselInner.style.transform = `translateX(${offset}%)`;
+        }
+
+        const images = document.querySelectorAll('.carousel-item img');
+        images.forEach(img => {
+            const src = img.src;
+            const preloadImg = new Image();
+            preloadImg.src = src;
+        });
+
+        let autoPlay = setInterval(() => moveCarousel(1), 5000);
+
+        document.querySelector('.carousel').addEventListener('mouseenter', () => {
+            clearInterval(autoPlay);
+        });
+
+        document.querySelector('.carousel').addEventListener('mouseleave', () => {
+            autoPlay = setInterval(() => moveCarousel(1), 5000);
+        });
+    </script>
+</body>
+</html>
