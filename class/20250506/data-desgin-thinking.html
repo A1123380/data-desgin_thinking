@@ -185,7 +185,6 @@
             border-radius: 10px;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
             background: #f5f5f5;
-            perspective: 1000px;
         }
 
         .carousel-inner {
@@ -207,7 +206,7 @@
             max-height: 100%;
             object-fit: contain;
             background: white;
-            transition: transform 0.1s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
 
@@ -409,7 +408,6 @@
         let currentIndex = 0;
         const carouselInner = document.querySelector('.carousel-inner');
         const totalItems = document.querySelectorAll('.carousel-item').length;
-        const carousel = document.querySelector('.carousel');
 
         function moveCarousel(direction) {
             currentIndex += direction;
@@ -443,40 +441,13 @@
             lightbox.style.display = 'none';
         }
 
-        // Fake 3D effect
-        carousel.addEventListener('mousemove', (e) => {
-            const rect = carousel.getBoundingClientRect();
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-
-            const maxTilt = 10; // Maximum tilt angle in degrees
-            const tiltX = ((mouseY - centerY) / centerY) * maxTilt;
-            const tiltY = -((mouseX - centerX) / centerX) * maxTilt;
-
-            const currentImg = document.querySelector(`.carousel-item:nth-child(${currentIndex + 1}) img`);
-            if (currentImg) {
-                currentImg.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.05)`;
-                currentImg.style.boxShadow = `${tiltY * 0.5}px ${tiltX * 0.5}px 12px rgba(0, 0, 0, 0.2)`;
-            }
-        });
-
-        carousel.addEventListener('mouseleave', () => {
-            const currentImg = document.querySelector(`.carousel-item:nth-child(${currentIndex + 1}) img`);
-            if (currentImg) {
-                currentImg.style.transform = 'scale(1)';
-                currentImg.style.boxShadow = '0 3px 6px rgba(0, 0, 0, 0.1)';
-            }
-        });
-
         let autoPlay = setInterval(() => moveCarousel(1), 5000);
 
-        carousel.addEventListener('mouseenter', () => {
+        document.querySelector('.carousel').addEventListener('mouseenter', () => {
             clearInterval(autoPlay);
         });
 
-        carousel.addEventListener('mouseleave', () => {
+        document.querySelector('.carousel').addEventListener('mouseleave', () => {
             autoPlay = setInterval(() => moveCarousel(1), 5000);
         });
     </script>
