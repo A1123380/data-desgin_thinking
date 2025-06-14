@@ -1,0 +1,452 @@
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雨量測站數據分析報告</title>
+    <style>
+        @font-face {
+            font-family: 'RoundedBlack';
+            src: url('path-to-your-font-file.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'RoundedBlack', 'Noto Sans TC', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #4B5EAA 0%, #2C3E50 100%);
+            font-size: 16px;
+            color: #333333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .rain-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .rain-drop {
+            position: absolute;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="12"><ellipse cx="3" cy="6" rx="1.5" ry="4" fill="rgba(255,255,255,0.3)"/></svg>');
+            width: 6px;
+            height: 12px;
+            animation: rain-curve var(--duration) linear infinite;
+            left: var(--random-x);
+            animation-delay: var(--random-delay);
+            will-change: transform;
+        }
+
+        .rain-drop.large {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="16"><ellipse cx="4" cy="8" rx="2" ry="5" fill="rgba(255,255,255,0.4)"/></svg>');
+            width: 8px;
+            height: 16px;
+        }
+
+        @keyframes rain-curve {
+            0% { transform: translateY(-100vh) translateX(0); }
+            50% { transform: translateY(0) translateX(var(--swing)); }
+            100% { transform: translateY(200vh) translateX(0); }
+        }
+
+        .outer-bookmarks {
+            width: 90%;
+            max-width: 1260px;
+            margin: 0;
+            position: relative;
+            top: 8px;
+            z-index: 10;
+        }
+
+        .outer-bookmarks ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 4px;
+            justify-content: flex-start;
+            padding-left: 50px;
+        }
+
+        .outer-bookmarks li {
+            position: relative;
+        }
+
+        .outer-bookmarks a {
+            display: block;
+            padding: 8px 16px;
+            background-color: #A3BFFA;
+            color: #333333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            transition: transform 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        .outer-bookmarks a:hover {
+            background-color: #6B7280;
+            color: #FFFFFF;
+            transform: rotate(0deg);
+        }
+
+        .outer-bookmarks li:nth-child(2) a {
+            transform: rotate(0deg);
+        }
+
+        .outer-bookmarks li:nth-child(3) a {
+            transform: rotate(0deg);
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 30;
+            cursor: pointer;
+            font-size: 24px;
+            color: #333333;
+            background-color: #A3BFFA;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 25;
+        }
+
+        .outer-bookmarks.mobile {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 300px;
+            height: 100%;
+            background-color: rgba(54, 64, 85, 0.9);
+            transition: right 0.5s ease;
+            overflow-y: auto;
+            padding-top: 60px;
+            z-index: 26; 
+        }
+
+        .outer-bookmarks.mobile.active {
+            right: 0; 
+        }
+
+        .outer-bookmarks.mobile ul {
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .outer-bookmarks.mobile a {
+            display: block;
+            padding: 10px;
+            background-color: #A3BFFA;
+            color: #333333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .outer-bookmarks.mobile a:hover {
+            background-color: #6B7280;
+            color: #FFFFFF;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            max-width: 1260px;
+            background-color: transparent;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 0 25px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .text-section {
+            flex: 1;
+            padding: 32px;
+            background-color: rgba(230, 240, 250, 0.5);
+            border-right: 1px solid #B0C4DE;
+        }
+
+        .text-section h1 {
+            font-size: 30px;
+            margin: 8px 0 40px 0;
+            color: #2C3E50;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            min-height: 400px;
+            max-height: 400px;
+            z-index: 11;
+        }
+
+        .inner-bookmarks {
+            display: flex;
+            gap: 8px;
+            position: absolute;
+            top: -16px;
+            left: 16px;
+            z-index: 12;
+        }
+
+        .inner-bookmarks ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 4px;
+        }
+
+        .inner-bookmarks li {
+            position: relative;
+        }
+
+        .inner-bookmarks a {
+            display: block;
+            padding: 6px 12px;
+            background-color: #A3BFFA;
+            color: #333333;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            transition: transform 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        .inner-bookmarks a:hover {
+            background-color: #6B7280;
+            color: #FFFFFF;
+            transform: rotate(0deg);
+        }
+
+        .inner-bookmarks li:nth-child(2) a {
+            transform: rotate(2deg);
+        }
+
+        .inner-bookmarks li:nth-child(3) a {
+            transform: rotate(-1deg);
+        }
+
+        .content-scroll {
+            max-height: 340px;
+            overflow-y: auto;
+            padding-right: 8px;
+            margin-top: 16px;
+            z-index: 11;
+        }
+
+        .content-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .content-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb {
+            background: #6B7280;
+            border-radius: 3px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb:hover {
+            background: #4B5EAA;
+        }
+
+        .card p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333333;
+            text-align: justify;
+            margin: 12px 0;
+        }
+
+        .card strong {
+            color: #6a3783;
+        }
+
+        .chart-section {
+            flex: 1;
+            padding: 32px;
+            background-color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        iframe {
+            width: 800px;
+            height: 498px;
+            border: 2px solid #4B5EAA;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 10px rgba(75, 94, 170, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .overlay {
+                display: none;
+            }
+
+            .overlay.active {
+                display: block; 
+            }
+
+            .outer-bookmarks {
+                display: none;
+            }
+
+            .outer-bookmarks.mobile.active {
+                display: block;
+            }
+
+            .container {
+                flex-direction: column-reverse;
+            }
+
+            .text-section, .chart-section {
+                padding: 16px;
+            }
+
+            .text-section h1 {
+                font-size: 24px;
+            }
+
+            .card {
+                min-height: 300px;
+                max-height: 300px;
+            }
+
+            .content-scroll {
+                max-height: 240px;
+            }
+
+            iframe {
+                width: 100%;
+                height: 360px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="rain-container" id="rain-container"></div>
+    <div class="menu-toggle">☰</div>
+    <div class="overlay"></div>
+    <div class="outer-bookmarks">
+        <ul>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250415/age-curvechart-t1.html">新莊高齡者樣態</a></li>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250422/new-taipei-analysis.html">新北人口熱力圖</a></li>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250429/new-taipei-85age.html">新北年長者熱力圖</a></li>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250506/collect_ideas.html">銀髮旅遊</a></li>
+            <li><a href="#">台灣雨量測站</a></li>
+        </ul>
+    </div>
+    <div class="outer-bookmarks mobile">
+        <ul>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250415/age-curvechart-t1.html">新莊高齡者樣態</a></li>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250422/new-taipei-analysis.html">新北人口熱力圖</a></li>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250429/new-taipei-85age.html">v新北年長者熱力圖</a></li>
+            <li><a href="https://a1123380.github.io/data-desgin-thinking/class/20250506/collect_ideas.html">銀髮旅遊</a></li>
+            <li><a href="#">台灣雨量測站</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="text-section">
+            <h1>雨量測站數據分析報告</h1>
+            <div class="card" id="rainfall-overview">
+                <div class="inner-bookmarks">
+                    <ul>
+                        <li><a href="#rainfall-overview">總覽</a></li>
+                        <li><a href="#data-source">資料來源</a></li>
+                        <li><a href="#analysis-method">分析方法</a></li>
+                    </ul>
+                </div>
+                <div class="content-scroll">
+                    <h3><b>雨量測站監測</b></h3>
+                    <p id="rainbow"><strong>月每日與量總表</strong>：針對五個月份及整個月平均降雨量進行分析，以區域圖呈現最大與最小降雨量的縣市。南投縣的降雨量特別突出，高於其他縣市。一月整體降雨量偏低，幾乎所有縣市呈現乾燥趨勢，可能與東北季風盛行期有關，適合登山健行，但需注意皮膚保養與水分補充。五月因梅雨季開始，降雨明顯增加，分布頻繁且集中，建議規劃室內活動。值得注意的是，每月中旬出現明顯降雨趨勢，值得研究與進一步探討。</p>
+                    <p id="data-source"><strong>資料來源</strong>：數據來自Open Weather API，經清理與整合，確保準確性與一致性。</p>
+                    <p id="analysis-method"><strong>緞帶卡片圖表分析</strong>：緞帶圖清晰展現各測站降雨差距，卡片圖標示降雨最多與最少區域。台北鞍部測站降雨量高，北部地區降雨充沛，需關注防災（如山區邊坡穩定、都市排水）。高雄降雨量偏低，南部可能面臨乾旱，建議強化節水與儲水。活動規劃可依地區降雨特性調整時機與地點。</p>
+                    <p><strong>漏斗+多列卡片+瀑布圖</strong>：漏斗圖排序降雨量，聚焦高低縣市；多列卡片圖顯示具體數據，屏東最乾燥，台北與基隆降雨量高，北部受地形影響顯著。瀑布圖呈現雨量增益趨勢，如花蓮到基隆的變化幅度，視覺層次感強，幫助理解累積效果。</p>
+                </div>
+            </div>
+        </div>
+        <div class="chart-section">
+            <iframe title="測站雨量站情報室" width="960" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiN2VkN2E1YTEtZmE4My00ZWExLWFmZjItMmFhMzJmNmM5ZGNmIiwidCI6IjVhNDg0OTUzLTc3ZWYtNDJlYy05MGNmLTJmNGUxMDM3ZmZjNyIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+    </div>
+    <script>
+        const rainContainer = document.getElementById('rain-container');
+        const dropCount = 600;
+        for (let i = 0; i < dropCount; i++) {
+            const drop = document.createElement('div');
+            drop.className = `rain-drop ${i % 5 === 0 ? 'large' : ''}`;
+            drop.style.setProperty('--random-x', `${Math.random() * 100}%`);
+            drop.style.setProperty('--random-delay', `${Math.random() * 5}s`);
+            drop.style.setProperty('--duration', `${4 + Math.random() * 4}s`);
+            drop.style.setProperty('--swing', `${(Math.random() - 0.5) * 20}px`);
+            rainContainer.appendChild(drop);
+        }
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileBookmarks = document.querySelector('.outer-bookmarks.mobile');
+        const overlay = document.querySelector('.overlay');
+        menuToggle.addEventListener('click', () => {
+            mobileBookmarks.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            mobileBookmarks.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
