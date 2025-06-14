@@ -25,11 +25,11 @@
         }
 
         .rain-container {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             z-index: -1;
             pointer-events: none;
             overflow: hidden;
@@ -411,8 +411,8 @@
                 </div>
                 <div class="content-scroll">
                     <h3><b>雨量測站監測</b></h3>
-                    <p id="rainbow"><strong>月每日與量總表</strong>：針對五個月份及整體月平均降雨量進行分析，以區域圖呈現最大與最小降雨量的縣市。南投縣的降雨量特別突出，高於其他縣市。一月整體降雨量偏低，幾乎所有縣市呈現乾燥趨勢，可能與東北季風盛行期有關，適合登山健行，但需注意皮膚保養與水分補充。五月因梅雨季開始，降雨明顯增加，分布頻繁且集中，建議規劃室內活動。值得注意的是，每月中旬出現明顯降雨趨勢，顯示某種階段性模式，需進一步探討。</p>
-                    <p id="data-source"><strong>資料來源</strong>：數據來自Open Weather API，經清洗與整合，確保準確性與一致性。</p>
+                    <p id="rainbow"><strong>月每日與量總表</strong>：針對五個月份及整個月平均降雨量進行分析，以區域圖呈現最大與最小降雨量的縣市。南投縣的降雨量特別突出，高於其他縣市。一月整體降雨量偏低，幾乎所有縣市呈現乾燥趨勢，可能與東北季風盛行期有關，適合登山健行，但需注意皮膚保養與水分補充。五月因梅雨季開始，降雨明顯增加，分布頻繁且集中，建議規劃室內活動。值得注意的是，每月中旬出現明顯降雨趨勢，值得研究與進一步探討。</p>
+                    <p id="data-source"><strong>資料來源</strong>：數據來自Open Weather API，經清理與整合，確保準確性與一致性。</p>
                     <p id="analysis-method"><strong>緞帶卡片圖表分析</strong>：緞帶圖清晰展現各測站降雨差距，卡片圖標示降雨最多與最少區域。台北鞍部測站降雨量高，北部地區降雨充沛，需關注防災（如山區邊坡穩定、都市排水）。高雄降雨量偏低，南部可能面臨乾旱，建議強化節水與儲水。活動規劃可依地區降雨特性調整時機與地點。</p>
                     <p><strong>漏斗+多列卡片+瀑布圖</strong>：漏斗圖排序降雨量，聚焦高低縣市；多列卡片圖顯示具體數據，屏東最乾燥，台北與基隆降雨量高，北部受地形影響顯著。瀑布圖呈現雨量增益趨勢，如花蓮到基隆的變化幅度，視覺層次感強，幫助理解累積效果。</p>
                 </div>
@@ -424,17 +424,15 @@
     </div>
     <script>
         const rainContainer = document.getElementById('rain-container');
-        const dropCount = 600;
+        const dropCount = window.innerWidth < 768 ? 100 : 600;
         for (let i = 0; i < dropCount; i++) {
             const drop = document.createElement('div');
             drop.className = `rain-drop ${i % 5 === 0 ? 'large' : ''}`;
-            drop.style.setProperty('--random-x', `${Math.random() * 100}%`);
-            drop.style.setProperty('--random-delay', `${Math.random() * 5}s`);
-            drop.style.setProperty('--duration', `${4 + Math.random() * 4}s`);
-            drop.style.setProperty('--swing', `${(Math.random() - 0.5) * 20}px`);
+            drop.style.left = `${Math.random() * 100}%`;
+            drop.style.animationDelay = `${Math.random() * 5}s`;
+            drop.style.animationDuration = `${4 + Math.random() * 4}s`;
             rainContainer.appendChild(drop);
         }
-
         const menuToggle = document.querySelector('.menu-toggle');
         const mobileBookmarks = document.querySelector('.outer-bookmarks.mobile');
         const overlay = document.querySelector('.overlay');
